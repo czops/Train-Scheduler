@@ -31,7 +31,7 @@ $("#add-row").on("click", function (event) {
     // Don't forget to provide initial data to your Firebase database.
     TrainName = $("#InputTrainName").val().trim();
     TrainDestination = $("#InputDestination").val().trim();
-    TrainTime = $("#InputTrainTime").val().trim();
+    FirstTrainTime = $("#InputFirstTrainTime").val().trim();
     TrainFrequency = $("#InputFrequency").val().trim();
 
     //this should not be the set method- want to instead use the push method
@@ -39,16 +39,16 @@ $("#add-row").on("click", function (event) {
     database.ref().push({
         Name: TrainName,
         Destination: TrainDestination,
-        Time: TrainTime,
+        FirstTime: FirstTrainTime,
         Frequency: TrainFrequency,
         DateAdded: firebase.database.ServerValue.TIMESTAMP
     });
 
     // Refresh the entries
-    $("#TrainNameInput").val("Thomas");
-    $("#InputDestination").val("Kingdom Come");
-    // $("#TrainTime").val("--:-- AM/PM");
-    $("#TrainFrequency").val(0);
+    $("#TrainNameInput").val("");
+    $("#InputDestination").val();
+    // $("#FirstTrainTime").val("--:-- AM/PM");
+    $("#TrainFrequency").val();
 
 });
 
@@ -60,16 +60,16 @@ database.ref().on("child_added", function (snapshot) {
     console.log(snapshot.val());
     console.log(snapshot.val().Name);
     console.log(snapshot.val().Destination);
-    console.log(snapshot.val().Time);
+    console.log(snapshot.val().FirstTime);
     console.log(snapshot.val().Frequency);
 
     // Change the HTML to reflect the new row added to the database
     //This should work for every child the same way... it can't jhust target the same IDs each time
-    // var dateCalc = moment(snapshot.val().StartDate).format('YYYYMMDD');
-    // console.log(dateCalc);
-    // debugger;
+    var TimeElapsedCalc = moment(snapshot.val().FirstTime).startOf('minute').fromNow();
+    console.log(TimeElapsedCalc);
+    debugger;
 
-    $("#myTable").append("<tr>" + "<td>" + snapshot.val().Name + "</td>" + "<td>" + snapshot.val().Destination + "</td>" + "<td>" + snapshot.val().Time + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "</tr>");
+    $("#myTable").append("<tr>" + "<td>" + snapshot.val().Name + "</td>" + "<td>" + snapshot.val().Destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + snapshot.val().FirstTime + "</td>" + "</tr>");
 
 
     // Handle the errors
