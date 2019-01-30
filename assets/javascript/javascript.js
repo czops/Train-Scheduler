@@ -41,13 +41,14 @@ $("#add-row").on("click", function (event) {
         Destination: TrainDestination,
         Time: TrainTime,
         Frequency: TrainFrequency,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
+        DateAdded: firebase.database.ServerValue.TIMESTAMP
     });
 
-    $("#inputName4").val("Name");
-    $("#inputRole4").val("Role");
-    $("#date-input").val("2000-01-01");
-    $("#pay-input").val(0);
+    // Refresh the entries
+    $("#TrainNameInput").val("Thomas");
+    $("#InputDestination").val("Kingdom Come");
+    // $("#TrainTime").val("--:-- AM/PM");
+    $("#TrainFrequency").val(0);
 
 });
 
@@ -57,18 +58,18 @@ database.ref().on("child_added", function (snapshot) {
 
     // Log everything that's coming out of snapshot
     console.log(snapshot.val());
-    console.log(snapshot.val().EmployeeName);
-    console.log(snapshot.val().StartDate);
-    console.log(snapshot.val().Role);
-    console.log(snapshot.val().Pay);
+    console.log(snapshot.val().Name);
+    console.log(snapshot.val().Destination);
+    console.log(snapshot.val().Time);
+    console.log(snapshot.val().Frequency);
 
     // Change the HTML to reflect the new row added to the database
     //This should work for every child the same way... it can't jhust target the same IDs each time
-    var dateCalc = moment(snapshot.val().StartDate).format('YYYYMMDD');
-    console.log(dateCalc);
-    debugger;
+    // var dateCalc = moment(snapshot.val().StartDate).format('YYYYMMDD');
+    // console.log(dateCalc);
+    // debugger;
 
-    $("#myTable").append("<tr>" + "<td>" + snapshot.val().EmployeeName + "</td>" + "<td>" + snapshot.val().Role + "</td>" + "<td>" + snapshot.val().StartDate + "</td>" + "<td>0</td>" + "<td>" + snapshot.val().Pay + "</td>" + "<td>0</td>" + "</tr>");
+    $("#myTable").append("<tr>" + "<td>" + snapshot.val().Name + "</td>" + "<td>" + snapshot.val().Destination + "</td>" + "<td>" + snapshot.val().Time + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "</tr>");
 
 
     // Handle the errors
