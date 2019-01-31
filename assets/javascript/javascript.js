@@ -81,5 +81,14 @@ function pushData() {
 
 };
 
+//What's left:
+// getTime of first Train 1:00 pm -> 13:00 … 
+// Moment.JS needs Military time
+
+// 	Frequency = 15 min
+// from 13:00 onwards... there is a train every is min
+// 		Next Arrival = PreviousArrival + 15 min
+// 	TimetUntilNextTrain = NextArrival - TimeNow
+// ---> Display these
 
 
