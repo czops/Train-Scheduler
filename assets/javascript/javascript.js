@@ -19,8 +19,6 @@ firebase.initializeApp(config);
 // Create a variable to reference the database.
 var database = firebase.database();
 
-// var EmployeeName = database.ref();
-
 
 $("#add-row").on("click", function (event) {
     // Don't refresh the page!
@@ -33,6 +31,10 @@ $("#add-row").on("click", function (event) {
     TrainDestination = $("#InputDestination").val().trim();
     FirstTrainTime = $("#InputFirstTrainTime").val().trim();
     TrainFrequency = $("#InputFrequency").val().trim();
+    //do calculations
+    NextTrain = moment().startOf(FirstTrainTime).fromNow();
+    // NextTrain = moment(FirstTrainTime).startOf().fromNow();
+    console.log(NextTrain);
 
     //this should not be the set method- want to instead use the push method
 
@@ -42,6 +44,7 @@ $("#add-row").on("click", function (event) {
         FirstTime: FirstTrainTime,
         Frequency: TrainFrequency,
         DateAdded: firebase.database.ServerValue.TIMESTAMP
+        // NextTrain: 
     });
 
     // Refresh the entries
@@ -64,10 +67,15 @@ database.ref().on("child_added", function (snapshot) {
     console.log(snapshot.val().Frequency);
 
     // Change the HTML to reflect the new row added to the database
-    //This should work for every child the same way... it can't jhust target the same IDs each time
-    var TimeElapsedCalc = moment(snapshot.val().FirstTime).startOf('minute').fromNow();
-    console.log(TimeElapsedCalc);
-    debugger;
+    //This should work for every child the same way... it can't just target the same IDs each time
+
+    // var TimeElapsedCalc = moment(snapshot.val().FirstTime).startOf('minute').fromNow();
+    // console.log(TimeElapsedCalc);
+
+    // var NextTrain = moment().startOf(FirstTime).fromNow();
+    // console.log(NextTrain);
+
+
 
     $("#myTable").append("<tr>" + "<td>" + snapshot.val().Name + "</td>" + "<td>" + snapshot.val().Destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + snapshot.val().FirstTime + "</td>" + "</tr>");
 
@@ -76,6 +84,15 @@ database.ref().on("child_added", function (snapshot) {
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
+
+
+
+//call the time to update
+// database.ref().onUpdate() = {
+
+//     $("#myTable").append("<tr>" + "<td>" + snapshot.val().Name + "</td>" + "<td>" + snapshot.val().Destination + "</td>" + "<td>" + snapshot.val().Frequency + "</td>" + "<td>" + snapshot.val().FirstTime + "</td>" + "</tr>");
+
+// }
 
 function pushData() {
 
